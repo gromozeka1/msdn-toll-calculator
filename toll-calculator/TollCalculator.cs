@@ -40,5 +40,40 @@ namespace toll_calculator
                 { } => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)),
                 null => throw new ArgumentNullException(nameof(vehicle))
             };
+
+        public decimal PeakTimePremium(DateTime timeOfToll, bool inbound) =>
+            (IsWeekDay(timeOfToll), GetTimeBand(timeOfToll), inbound) switch
+            {
+                (true, TimeBand.Overnight, _) => 0.75m,
+                (true, TimeBand.Daytime, _) => 1.50m,
+                (true, TimeBand.MorningRush, true) => 2.00m,
+                (true, TimeBand.EveningRush, false) => 2.00m,
+                _ => 1.00m,
+            };
+
+        private static bool IsWeekDay(DateTime timeOfToll) =>
+            timeOfToll.DayOfWeek switch
+        {
+            DayOfWeek.Saturday => false,
+            DayOfWeek.Sunday => false,
+            _ => true
+        };
+
+        private enum TimeBand
+        {
+            MorningRush,
+            Daytime,
+            EveningRush,
+            Overnight
+        }
+
+        private static TimeBand GetTimeBand(DateTime timeOfToll) =>
+            timeOfToll.Hour switch
+            {
+                < 6 or > 19 => TimeBand.Overnight,
+                < 10 => TimeBand.MorningRush,
+                < 16 => TimeBand.Daytime,
+                _ => TimeBand.EveningRush,
+            };
     }
 }
