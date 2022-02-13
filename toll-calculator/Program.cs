@@ -12,7 +12,6 @@ namespace toll_calculator
     {
         static void Main(string[] args)
         {
-            /*   First set of test code
             var tollCalc = new TollCalculator();
 
             var car = new Car();
@@ -33,6 +32,7 @@ namespace toll_calculator
             {
                 Console.WriteLine("Caught an argument exception when using the wrong type");
             }
+
             try
             {
                 tollCalc.CalculateToll(null!);
@@ -41,7 +41,6 @@ namespace toll_calculator
             {
                 Console.WriteLine("Caught an argument exception when using null");
             }
-            */
 
             /*  2nd test (after adding for occupants)
             var tollCalc = new TollCalculator();
